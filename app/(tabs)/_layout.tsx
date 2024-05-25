@@ -1,25 +1,23 @@
 import * as React from 'react';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
-import AddItems from './AddItems';
+import AddItems from './Products/AddItems';
 import Cart from './Cart';
 import { FontAwesome } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import Inventory from './Inventory';
 import StockCalendar from './StockCalendar';
 
-const Tab = createBottomTabNavigator();
+const Stack = createStackNavigator();
 
 export default function Layout() {
   return (
-    <NavigationContainer independent={true}>
-      <Tab.Navigator
-        tabBarOptions={{
-          activeTintColor: '#345832',
-          inactiveTintColor: '#363636',
-          showLabel: false,
-        }}
+    <NavigationContainer>
+      <Stack.Navigator
         screenOptions={{
+          tabBarActiveTintColor: '#345832',
+          tabBarInactiveTintColor: '#363636',
+          tabBarShowLabel: false,
           headerStyle: {
             backgroundColor: '#345832',
           },
@@ -30,43 +28,43 @@ export default function Layout() {
           },
           headerTitleAlign: 'center',
         }}>
-        <Tab.Screen
+        <Stack.Screen
           name="Cart"
           component={Cart}
           options={{
-            tabBarIcon: ({ color, size }) => (
+            tabBarIcon: ({ color, size }: { color: string, size: number }) => (
               <MaterialIcons name="payment" size={size} color={color} />
             ),
           }}
         />
-        <Tab.Screen
+        <Stack.Screen
           name="Add Items"
           component={AddItems}
           options={{
-            tabBarIcon: ({ color, size }) => (
+            tabBarIcon: ({ color, size }: { color: string, size: number }) => (
               <FontAwesome name="shopping-basket" size={size} color={color} />
             ),
           }}
         />
-        <Tab.Screen
+        <Stack.Screen
           name="Inventory"
           component={Inventory}
           options={{
-            tabBarIcon: ({ color, size }) => (
+            tabBarIcon: ({ color, size }: { color: string, size: number }) => (
               <MaterialIcons name="inventory" size={size} color={color} />
             ),
           }}
         />
-        <Tab.Screen
+        <Stack.Screen
           name="Stock Calendar"
           component={StockCalendar}
           options={{
-            tabBarIcon: ({ color, size }) => (
+            tabBarIcon: ({ color, size }: { color: string, size: number }) => (
               <FontAwesome name="calendar" size={size} color={color} />
             ),
           }}
         />
-      </Tab.Navigator>
+      </Stack.Navigator>
     </NavigationContainer>
   );
 }

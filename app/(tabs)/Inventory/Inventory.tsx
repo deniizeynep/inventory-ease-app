@@ -1,32 +1,23 @@
 import {
     View,
-    TextInput,
     StyleSheet,
-    TouchableOpacity,
     Text,
     ScrollView,
   } from 'react-native';
-  import { FontAwesome } from '@expo/vector-icons';
   
   export default function Inventory() {
     return (
       <ScrollView style={{backgroundColor: '#ffff'}}>
         <View style={styles.container}>
-          <Text style={styles.productName}>aa</Text>
+          <Text style={styles.productName}>Out Of Stock</Text>
         </View>
         <View style={styles.containerr}>
-          <Text style={styles.productName}>aa</Text>
+          <Text style={styles.productName}>Low Stock</Text>
         </View>
         <View style={styles.containerr}>
-          <Text style={styles.productName}>aa</Text>
+          <Text style={styles.productName}>In Stock</Text>
         </View>
-        <View style={styles.containerr}>
-          <Text style={styles.productName}>aa</Text>
-        </View>
-  
-        <View style={styles.trans}>
-          <Text style={styles.who}>aa</Text>
-        </View>
+        
       </ScrollView>
     );
   }

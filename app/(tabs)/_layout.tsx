@@ -4,7 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import Cart from './Cart';
 import { FontAwesome } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
-import StockCalendar from './StockCalendar';
+import StockCalendar from './StockCalendar/StockCalendar';
 import AddItems from './AddItems/AddItems';
 import Inventory from './Inventory/Inventory';
 

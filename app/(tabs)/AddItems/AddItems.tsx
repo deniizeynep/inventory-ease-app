@@ -1,9 +1,4 @@
-import {
-  View,
-  TextInput,
-  StyleSheet,
-  ScrollView,
-} from "react-native";
+import { View, TextInput, StyleSheet, ScrollView } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import ProductList from "./ProductList";
 

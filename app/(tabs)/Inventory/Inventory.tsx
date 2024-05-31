@@ -8,7 +8,6 @@ export default function Inventory() {
       <View>
         <View style={styles.container}>
           <Text style={styles.title}>
-            {" "}
             <FontAwesome5 name="exclamation" size={24} color="red" /> Out Of
             Stock{" "}
           </Text>

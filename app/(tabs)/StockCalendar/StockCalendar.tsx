@@ -1,68 +1,60 @@
-import { View, TextInput, StyleSheet, TouchableOpacity,Text,ScrollView } from 'react-native';
-import { FontAwesome } from '@expo/vector-icons'; 
+// components/StockCalendar.tsx
+import React from 'react';
+import { View, Text, StyleSheet, SafeAreaView } from 'react-native';
+import { Calendar, DateObject } from 'react-native-calendars';
+import { FontAwesome } from '@expo/vector-icons';
 
-export default function StockCalendar() {
+const StockCalendar: React.FC = () => {
+  const handleDayPress = (day: DateObject) => {
+    console.log('selected day', day);
+  };
+
   return (
-    <ScrollView style={{backgroundColor: '#ffff'}}>
-     <View style={styles.container}>
-      <Text style={styles.productName}>aa</Text>
-    </View>
-    <View style={styles.containerr}>
-      <Text style={styles.productName}>aa</Text>
-    </View>
-    <View style={styles.containerr}>
-      <Text style={styles.productName}>aa</Text>
-    </View>
-    <View style={styles.containerr}>
-      <Text style={styles.productName}>aa</Text>
-    </View>
-
-    <View style={styles.trans}>
-      <Text style={styles.who}>aa</Text>
-    </View>
-  
-    </ScrollView>
+    <SafeAreaView style={styles.container}>
+      <Calendar
+        markedDates={{
+          '2024-05-10': {
+            marked: true,
+            dotColor: 'red',
+            selected: true,
+          },
+        }}
+        onDayPress={handleDayPress}
+      />
+      <View style={styles.eventContainer}>
+        <Text style={styles.eventText}>
+          May 10th beverage truck will arrive
+        </Text>
+        <FontAwesome name="exclamation" size={24} color="red" />
+      </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-    container: {
-    width: '90%',
-    height: 70,
-    marginTop: 40,
-    marginLeft: 20,
-    backgroundColor: '#e3e3e3',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 10,
-  },containerr: {
-    width: '90%',
-    height: 70,
-    marginTop: 20,
-    marginLeft: 20,
-    backgroundColor: '#e3e3e3',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 10,
+  container: {
+    flex: 1,
+    padding: 16,
+    backgroundColor: 'white',
   },
-  productName: {
-    fontSize: 16,
+  header: {
+    fontSize: 24,
     fontWeight: 'bold',
     textAlign: 'center',
-  },trans: {
-    width: '90%',
-    height: 70,
-    marginTop: 20,
-    marginLeft: 20,
-    backgroundColor: '#e3e3e3',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 10,
+    marginVertical: 16,
   },
-  who: {
+  eventContainer: {
+    marginTop: 16,
+    padding: 16,
+    backgroundColor: '#f0f4f8',
+    borderRadius: 8,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  eventText: {
     fontSize: 16,
-    fontWeight: 'bold',
-    textAlign: 'center',
   },
 });
 
+export default StockCalendar;

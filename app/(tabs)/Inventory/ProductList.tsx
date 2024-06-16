@@ -5,25 +5,25 @@ import styles from "./styles";
 const initialProducts = [
   {
     id: "1",
-    name: "Product 1",
+    name: "Coca Cola",
     quantity: 1,
     image: "https://via.placeholder.com/100",
   },
   {
     id: "2",
-    name: "Product 2",
+    name: "Ice Tea",
     quantity: 1,
     image: "https://via.placeholder.com/100",
   },
   {
     id: "3",
-    name: "Product 3",
+    name: "Water",
     quantity: 1,
     image: "https://via.placeholder.com/100",
   },
   {
     id: "4",
-    name: "Product 3",
+    name: "Fruit Juice",
     quantity: 1,
     image: "https://via.placeholder.com/100",
   },

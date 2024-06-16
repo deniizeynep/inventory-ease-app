@@ -42,7 +42,7 @@ export default StyleSheet.create({
   },
   quantityButton: {
     padding: 5,
-    backgroundColor: "#ddd",
+    backgroundColor: "#382e49",
     borderRadius: 5,
     width: 30,
     height: 30,
@@ -52,6 +52,7 @@ export default StyleSheet.create({
   quantityButtonText: {
     fontSize: 18,
     fontWeight: "bold",
+    color: 'white',
   },
   productQuantity: {
     marginHorizontal: 10,

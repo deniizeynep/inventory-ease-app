@@ -34,7 +34,7 @@ export default StyleSheet.create({
     justifyContent: "flex-end",
   },
   quantityButton: {
-    backgroundColor: "#345832",
+    backgroundColor: "#382e49",
     padding: 5,
     borderRadius: 5,
     marginLeft: 5,
@@ -74,7 +74,7 @@ export default StyleSheet.create({
     fontWeight: "bold",
   },
   checkoutButton: {
-    backgroundColor: "#345832",
+    backgroundColor: "#382e49",
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 5,

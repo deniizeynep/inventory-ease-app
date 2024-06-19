@@ -16,11 +16,35 @@ import AddItems from "./(tabs)/AddItems/AddItems";
 import Inventory from "./(tabs)/Inventory/Inventory";
 import StockCalendar from "./(tabs)/StockCalendar/StockCalendar";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import PaymentScreen from "./(tabs)/Cart/Payment/Payment";
+import { createStackNavigator } from "@react-navigation/stack";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
 const Tab = createBottomTabNavigator();
+const Stack = createStackNavigator();
+
+function CartStack() {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: "#041E42",
+        },
+        headerTintColor: "white",
+        headerTitleStyle: {
+          fontWeight: "bold",
+          fontSize: 25,
+        },
+        headerTitleAlign: "center",
+      }}
+    >
+      <Stack.Screen name="Cart" component={Cart} />
+      <Stack.Screen name="Payment" component={PaymentScreen} />
+    </Stack.Navigator>
+  );
+}
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
@@ -43,11 +67,13 @@ export default function RootLayout() {
       <NavigationContainer independent={true}>
         <Tab.Navigator
           screenOptions={{
-            tabBarActiveTintColor: "#345832",
-            tabBarInactiveTintColor: "#363636",
+            tabBarActiveTintColor: "#0066b2",
+            tabBarInactiveTintColor: "#ffff",
+            tabBarActiveBackgroundColor: "#041E42",
+            tabBarInactiveBackgroundColor: "#041E42",
             tabBarShowLabel: false,
             headerStyle: {
-              backgroundColor: "#345832",
+              backgroundColor: "#041E42",
             },
             headerTintColor: "white",
             headerTitleStyle: {
@@ -58,11 +84,11 @@ export default function RootLayout() {
           }}
         >
           <Tab.Screen
-            name="Cart"
-            component={Cart}
+            name="Inventory"
+            component={Inventory}
             options={{
               tabBarIcon: ({ color, size }) => (
-                <MaterialIcons name="payment" size={size} color={color} />
+                <MaterialIcons name="inventory" size={size} color={color} />
               ),
             }}
           />
@@ -76,14 +102,16 @@ export default function RootLayout() {
             }}
           />
           <Tab.Screen
-            name="Inventory"
-            component={Inventory}
+            name="Cart"
+            component={CartStack}
             options={{
               tabBarIcon: ({ color, size }) => (
-                <MaterialIcons name="inventory" size={size} color={color} />
+                <MaterialIcons name="payment" size={size} color={color} />
               ),
+              headerShown: false,
             }}
           />
+
           <Tab.Screen
             name="Stock Calendar"
             component={StockCalendar}

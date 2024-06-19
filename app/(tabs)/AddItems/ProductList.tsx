@@ -8,7 +8,7 @@ import {
   Image,
 } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
-
+import styles from "./styles";
 interface Product {
   id: string;
   name: string;
@@ -21,15 +21,20 @@ interface ProductListProps {
 
 const products: Product[] = [
   { id: "1", name: "Coca Cola", price: 10 },
-  { id: "2", name: "Product 2", price: 20 },
-  { id: "3", name: "Product 3", price: 30 },
-  { id: "4", name: "Product 4", price: 30 },
-  { id: "5", name: "Product 5", price: 30 },
-  { id: "6", name: "Product 6", price: 30 },
-  { id: "7", name: "Product 7", price: 30 },
-  { id: "8", name: "Product 8", price: 30 },
-  { id: "9", name: "Product 9", price: 30 },
-  { id: "10", name: "Product 10", price: 30 },
+  { id: "2", name: "Ice Tea", price: 20 },
+  { id: "3", name: "Water", price: 30 },
+  { id: "4", name: "Tea", price: 30 },
+  { id: "5", name: "Fruit Juice", price: 30 },
+  { id: "6", name: "Capri Sun", price: 30 },
+  { id: "7", name: "Fanta", price: 30 },
+  { id: "8", name: "Sprite", price: 30 },
+  { id: "9", name: "Mineral Water", price: 30 },
+  { id: "10", name: "Lemonade", price: 30 },
+  { id: "11", name: "Pepsi", price: 30 },
+  { id: "12", name: "Ice Coffee", price: 30 },
+  { id: "13", name: "Coffee", price: 30 },
+  { id: "14", name: "Milk", price: 30 },
+  { id: "15", name: "Energy Drink", price: 30 },
 ];
 
 const ProductList: React.FC<ProductListProps> = ({ searchQuery }) => {
@@ -89,9 +94,15 @@ const ProductList: React.FC<ProductListProps> = ({ searchQuery }) => {
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.cartButton}
-                onPress={() => addToCart(item)}
+                onPress={() => {
+                  addToCart(item);
+                }}
               >
+                {/* {isLoading ? ( */}
+                {/* <FontAwesome name="spinner" size={20} color="white" />
+                ) : ( */}
                 <FontAwesome name="shopping-cart" size={20} color="white" />
+                {/* )} */}
               </TouchableOpacity>
             </View>
           </View>
@@ -100,66 +111,5 @@ const ProductList: React.FC<ProductListProps> = ({ searchQuery }) => {
     />
   );
 };
-
-const styles = StyleSheet.create({
-  productContainer: {
-    flexDirection: "row",
-    padding: 16,
-    marginBottom: 16,
-    backgroundColor: "#fff",
-    borderRadius: 8,
-    shadowColor: "#000",
-    shadowOpacity: 0.1,
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 8,
-    elevation: 2,
-  },
-  productImage: {
-    width: 100,
-    height: 100,
-    borderRadius: 8,
-    marginRight: 16,
-  },
-  productDetails: {
-    flex: 1,
-  },
-  productName: {
-    fontSize: 18,
-    fontWeight: "bold",
-  },
-  productPrice: {
-    fontSize: 16,
-    marginBottom: 8,
-  },
-  productActions: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  actionButton: {
-    width: 32,
-    height: 32,
-    borderColor: "#ccc",
-    borderWidth: 1,
-    borderRadius: 8,
-    justifyContent: "center",
-    alignItems: "center",
-    marginHorizontal: 8,
-  },
-  actionButtonText: {
-    fontSize: 18,
-    fontWeight: "bold",
-  },
-  quantityText: {
-    fontSize: 18,
-    fontWeight: "bold",
-  },
-  cartButton: {
-    marginLeft: "auto",
-    backgroundColor: "#382e49",
-    paddingVertical: 8,
-    paddingHorizontal: 16,
-    borderRadius: 8,
-  },
-});
 
 export default ProductList;

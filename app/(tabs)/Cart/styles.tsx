@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
   container: {
@@ -34,7 +34,7 @@ export default StyleSheet.create({
     justifyContent: "flex-end",
   },
   quantityButton: {
-    backgroundColor: "#382e49",
+    backgroundColor: "#002D62",
     padding: 5,
     borderRadius: 5,
     marginLeft: 5,
@@ -51,7 +51,7 @@ export default StyleSheet.create({
     fontSize: 16,
   },
   deleteButton: {
-    backgroundColor: "#d9534f",
+    backgroundColor: "#960018",
     padding: 5,
     borderRadius: 5,
     marginLeft: 10,
@@ -74,7 +74,7 @@ export default StyleSheet.create({
     fontWeight: "bold",
   },
   checkoutButton: {
-    backgroundColor: "#382e49",
+    backgroundColor: "#002D62",
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 5,

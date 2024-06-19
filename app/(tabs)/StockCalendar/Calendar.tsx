@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, Modal } from 'react-native';
-import { Calendar } from 'react-native-calendars';
+import React, { useState } from "react";
+import { StyleSheet, View, Text, TouchableOpacity, Modal } from "react-native";
+import { Calendar } from "react-native-calendars";
 
 export default function App() {
   const [selectedDate, setSelectedDate] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
 
-  const handleDayPress = (day) => {
+  const handleDayPress = (day: { dateString: React.SetStateAction<null> }) => {
     setSelectedDate(day.dateString);
     setModalVisible(true);
   };
@@ -18,10 +18,7 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <Calendar
-        onDayPress={handleDayPress}
-        
-      />
+      <Calendar onDayPress={handleDayPress} />
       <Modal
         animationType="slide"
         transparent={true}
@@ -44,33 +41,33 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#ffffff',
+    backgroundColor: "#ffffff",
   },
   modalContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   modalContent: {
-    backgroundColor: '#ffffff',
+    backgroundColor: "#ffffff",
     padding: 20,
     borderRadius: 10,
     elevation: 5,
   },
   modalTitle: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 10,
   },
   closeButton: {
-    backgroundColor: '#d9534f',
+    backgroundColor: "#d9534f",
     padding: 10,
     borderRadius: 5,
-    alignSelf: 'flex-end',
+    alignSelf: "flex-end",
   },
   closeButtonText: {
-    color: '#ffffff',
+    color: "#ffffff",
     fontSize: 16,
   },
 });

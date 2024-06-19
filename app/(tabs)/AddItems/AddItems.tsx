@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { View, TextInput, StyleSheet, ScrollView } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import ProductList from "./ProductList";
+import styles from "./styles";
 
 export default function AddItems() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -31,29 +32,3 @@ export default function AddItems() {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  inputContainer: {
-    width: "85%",
-    marginLeft: 30,
-    marginTop: 10,
-    flexDirection: "row",
-    alignItems: "center",
-    padding: 15,
-  },
-
-  input: {
-    flex: 1,
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 10,
-    paddingHorizontal: 35,
-    paddingVertical: 8,
-    color: "gray",
-  },
-  icon: {
-    position: "absolute",
-    left: 20,
-    top: 27,
-  },
-});

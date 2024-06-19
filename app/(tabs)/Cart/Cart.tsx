@@ -11,49 +11,50 @@ import {
 import { FontAwesome5 } from "@expo/vector-icons";
 import styles from "./styles";
 
+const initialCartItems = [
+  {
+    id: 1,
+    name: "Ürün 1",
+    price: 20,
+    quantity: 1,
+    image: "https://via.placeholder.com/100",
+  },
+  {
+    id: 2,
+    name: "Ürün 2",
+    price: 30,
+    quantity: 1,
+    image: "https://via.placeholder.com/100",
+  },
+  {
+    id: 3,
+    name: "Ürün 2",
+    price: 10,
+    quantity: 1,
+    image: "https://via.placeholder.com/100",
+  },
+  {
+    id: 4,
+    name: "Ürün 2",
+    price: 25,
+    quantity: 1,
+    image: "https://via.placeholder.com/100",
+  },
+  {
+    id: 5,
+    name: "Ürün 2",
+    price: 32,
+    quantity: 1,
+    image: "https://via.placeholder.com/100",
+  },
+];
 
- const initialCartItems = [
-    {
-      id: 1,
-      name: "Ürün 1",
-      price: 20,
-      quantity: 1,
-      image: "https://via.placeholder.com/100",
-    },
-    {
-      id: 2,
-      name: "Ürün 2",
-      price: 30,
-      quantity: 1,
-      image: "https://via.placeholder.com/100",
-    },
-    {
-      id: 3,
-      name: "Ürün 2",
-      price: 10,
-      quantity: 1,
-      image: "https://via.placeholder.com/100",
-    },
-    {
-      id: 4,
-      name: "Ürün 2",
-      price: 25,
-      quantity: 1,
-      image: "https://via.placeholder.com/100",
-    },
-    {
-      id: 5,
-      name: "Ürün 2",
-      price: 32,
-      quantity: 1,
-      image: "https://via.placeholder.com/100",
-    },
-  ];
-
-
-export default function Cart() {
- 
+export default function Cart({ navigation }) {
   const [cartItems, setCartItems] = useState(initialCartItems);
+
+  const handlePaymentPress = () => {
+    navigation.navigate("Payment", { totalAmount: getTotalPrice() });
+  };
 
   const getTotalPrice = () => {
     return cartItems.reduce(
@@ -127,11 +128,13 @@ export default function Cart() {
       )}
       <View style={styles.totalContainer}>
         <Text style={styles.totalText}>Total: {getTotalPrice()} $</Text>
-        <TouchableOpacity style={styles.checkoutButton}>
+        <TouchableOpacity
+          style={styles.checkoutButton}
+          onPress={handlePaymentPress}
+        >
           <Text style={styles.checkoutButtonText}>Price</Text>
         </TouchableOpacity>
       </View>
     </View>
   );
 }
-

@@ -1,96 +1,102 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from 'react';
 import {
-  StyleSheet,
+  Alert,
   View,
   Text,
   TouchableOpacity,
   FlatList,
   TextInput,
   Image,
-} from "react-native";
-import { FontAwesome5 } from "@expo/vector-icons";
-import styles from "./styles";
+} from 'react-native';
+import { FontAwesome5 } from '@expo/vector-icons';
+import styles from './styles'; // Ensure correct import path
 
-const initialCartItems = [
-  {
-    id: 1,
-    name: "Ürün 1",
-    price: 20,
-    quantity: 1,
-    image: "https://via.placeholder.com/100",
-  },
-  {
-    id: 2,
-    name: "Ürün 2",
-    price: 30,
-    quantity: 1,
-    image: "https://via.placeholder.com/100",
-  },
-  {
-    id: 3,
-    name: "Ürün 2",
-    price: 10,
-    quantity: 1,
-    image: "https://via.placeholder.com/100",
-  },
-  {
-    id: 4,
-    name: "Ürün 2",
-    price: 25,
-    quantity: 1,
-    image: "https://via.placeholder.com/100",
-  },
-  {
-    id: 5,
-    name: "Ürün 2",
-    price: 32,
-    quantity: 1,
-    image: "https://via.placeholder.com/100",
-  },
-];
+export default function Cart({ navigation, cartItems, updateCartItems }) {
+  const [localCartItems, setLocalCartItems] = useState(cartItems);
 
-export default function Cart({ navigation }) {
-  const [cartItems, setCartItems] = useState(initialCartItems);
+  useEffect(() => {
+    setLocalCartItems(cartItems);
+  }, [cartItems]);
 
   const handlePaymentPress = () => {
-    navigation.navigate("Payment", { totalAmount: getTotalPrice() });
+    navigation.navigate('Payment', { totalAmount: getTotalPrice() });
   };
 
   const getTotalPrice = () => {
-    return cartItems.reduce(
-      (total, item) => total + item.price * item.quantity,
+    return localCartItems.reduce(
+      (total: number, item: { price: number; quantity: number; }) => total + item.price * item.quantity,
       0
     );
   };
 
-  const updateQuantity = (id: number, quantity: number) => {
-    const updatedCartItems = cartItems.map((item) => {
+  const updateQuantity = (id: any, quantity: number) => {
+    const updatedCartItems = localCartItems.map((item: { id: any; }) => {
       if (item.id === id) {
         return { ...item, quantity: quantity };
       }
       return item;
     });
-    setCartItems(updatedCartItems);
+    setLocalCartItems(updatedCartItems);
+    updateCartItems(updatedCartItems); // Update cart items in parent component
   };
 
-  const removeItem = (id: number) => {
-    const updatedCartItems = cartItems.filter((item) => item.id !== id);
-    setCartItems(updatedCartItems);
+  const removeItem = (id: any) => {
+    Alert.alert(
+      "Remove Item",
+      "Are you sure you want to remove this item?",
+      [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel"
+        },
+        {
+          text: "OK",
+          onPress: () => {
+            const updatedCartItems = localCartItems.filter((item: { id: any; }) => item.id !== id);
+            setLocalCartItems(updatedCartItems);
+            updateCartItems(updatedCartItems); // Update cart items in parent component
+          }
+        }
+      ],
+      { cancelable: false }
+    );
+  };
+
+  const clearCart = () => {
+    Alert.alert(
+      "Clear Cart",
+      "Are you sure you want to clear the cart?",
+      [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel"
+        },
+        {
+          text: "OK",
+          onPress: () => {
+            setLocalCartItems([]);
+            updateCartItems([]); // Update cart items in parent component
+          }
+        }
+      ],
+      { cancelable: false }
+    );
   };
 
   return (
     <View style={styles.container}>
-      {cartItems.length === 0 ? (
+      {localCartItems.length === 0 ? (
         <Text style={styles.emptyText}>Sepetiniz boş.</Text>
       ) : (
         <FlatList
-          data={cartItems}
+          data={localCartItems}
           renderItem={({ item }) => (
             <View style={styles.item}>
-              <Image source={{ uri: item.image }} style={styles.itemImage} />
+              <Image source={item.image} style={styles.itemImage} />
               <View style={styles.itemDetails}>
                 <Text style={styles.itemName}>{item.name}</Text>
-                <View style={styles.quantityContainer}></View>
                 <Text style={styles.itemPrice}>
                   {item.price * item.quantity} $
                 </Text>
@@ -114,7 +120,6 @@ export default function Cart({ navigation }) {
               >
                 <FontAwesome5 name="minus" size={14} color="white" />
               </TouchableOpacity>
-
               <TouchableOpacity
                 onPress={() => removeItem(item.id)}
                 style={styles.deleteButton}
@@ -128,12 +133,22 @@ export default function Cart({ navigation }) {
       )}
       <View style={styles.totalContainer}>
         <Text style={styles.totalText}>Total: {getTotalPrice()} $</Text>
-        <TouchableOpacity
-          style={styles.checkoutButton}
-          onPress={handlePaymentPress}
-        >
-          <Text style={styles.checkoutButtonText}>Price</Text>
-        </TouchableOpacity>
+        {localCartItems.length > 0 && (
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity
+              style={styles.clearCartButton}
+              onPress={clearCart}
+            >
+              <Text style={styles.clearCartButtonText}>Clear Cart</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.checkoutButton}
+              onPress={handlePaymentPress}
+            >
+              <Text style={styles.checkoutButtonText}>Checkout</Text>
+            </TouchableOpacity>
+          </View>
+        )}
       </View>
     </View>
   );

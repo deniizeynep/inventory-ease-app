@@ -78,9 +78,24 @@ export default StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 5,
+    marginLeft: 10
   },
   checkoutButtonText: {
     color: "#ffffff",
     fontSize: 16,
+  },
+  clearCartButton: {
+    backgroundColor: "#002D62",
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+  },
+  clearCartButtonText: {
+    color: "#ffffff",
+    fontSize: 16,
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    marginTop: 10,
   },
 });

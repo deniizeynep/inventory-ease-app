@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -9,15 +9,14 @@ import {
   TextInput,
   FlatList,
   ScrollView,
-} from "react-native";
-import { Calendar } from "react-native-calendars";
-import { FontAwesome } from "@expo/vector-icons";
+} from 'react-native';
+import { Calendar, DateObject } from 'react-native-calendars';
 
 const StockCalendar: React.FC = () => {
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [notes, setNotes] = useState<{ [date: string]: string[] }>({});
-  const [inputText, setInputText] = useState("");
+  const [inputText, setInputText] = useState('');
 
   const handleDayPress = (day: DateObject) => {
     const selectedDateString = day.dateString;
@@ -26,18 +25,16 @@ const StockCalendar: React.FC = () => {
   };
 
   const closeModal = () => {
-    setSelectedDate(null);
     setModalVisible(false);
-    setInputText(""); // Not giriş alanını sıfırla
-    updateNotes(selectedDate, inputText); // Notları güncelle
   };
 
-  const updateNotes = (date: string | null, note: string) => {
-    if (date && note.trim() !== "") {
-      const updatedNotes = { ...notes };
-      const selectedDateNotes = updatedNotes[date] || [];
-      updatedNotes[date] = [...selectedDateNotes, note.trim()];
-      setNotes(updatedNotes);
+  const updateNotes = () => {
+    if (selectedDate && inputText.trim() !== '') {
+      setNotes((prevNotes) => ({
+        ...prevNotes,
+        [selectedDate]: [...(prevNotes[selectedDate] || []), inputText.trim()],
+      }));
+      setInputText('');
     }
   };
 
@@ -63,22 +60,18 @@ const StockCalendar: React.FC = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Calendar
-        markedDates={notes} // Notları işaretlenmiş tarihler olarak göster
-        onDayPress={handleDayPress}
-      />
+      <Calendar markedDates={notes} onDayPress={handleDayPress} />
       {renderNotes()}
       <Modal
         animationType="slide"
         transparent={true}
         visible={modalVisible}
-        onRequestClose={closeModal}
-      >
+        onRequestClose={closeModal}>
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
-            <Text style={styles.modalTitle}>Seçilen Tarih: {selectedDate}</Text>
+            <Text style={styles.modalTitle}>Selected Date: {selectedDate}</Text>
             <ScrollView style={styles.notesContainer}>
-              {(notes[selectedDate] || []).map((note, index) => (
+              {(notes[selectedDate] || []).map((note: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined, index: React.Key | null | undefined) => (
                 <View key={index} style={styles.noteItem}>
                   <Text>{note}</Text>
                 </View>
@@ -86,20 +79,23 @@ const StockCalendar: React.FC = () => {
             </ScrollView>
             <TextInput
               style={styles.input}
-              placeholder="Notunuzu girin..."
+              placeholder="Enter your note..."
               value={inputText}
               onChangeText={setInputText}
-              onSubmitEditing={updateNotes(selectedDate, inputText)}
             />
-            <TouchableOpacity
-              onPress={updateNotes(selectedDate, inputText)}
-              style={styles.saveButton}
-            >
-              <Text style={styles.saveButtonText}>Kaydet</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={closeModal} style={styles.closeButton}>
-              <Text style={styles.closeButtonText}>Kapat</Text>
-            </TouchableOpacity>
+            <View style={styles.buttons}>
+              <TouchableOpacity
+                onPress={() => {
+                  updateNotes();
+                  setModalVisible(false);
+                }}
+                style={styles.saveButton}>
+                <Text style={styles.saveButtonText}>Save</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={closeModal} style={styles.closeButton}>
+                <Text style={styles.closeButtonText}>Close</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
       </Modal>
@@ -111,25 +107,24 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
-    backgroundColor: "white",
+    backgroundColor: 'white',
   },
   modalContainer: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   modalContent: {
-    backgroundColor: "#ffffff",
+    backgroundColor: '#ffffff',
     padding: 20,
     borderRadius: 10,
     elevation: 5,
-    width: "80%",
-    maxHeight: "80%",
+    width: '80%',
+    maxHeight: '80%',
   },
   modalTitle: {
     fontSize: 18,
-    fontWeight: "bold",
     marginBottom: 10,
   },
   notesContainer: {
@@ -138,39 +133,43 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 40,
-    borderColor: "#cccccc",
+    borderColor: '#13274F',
     borderWidth: 1,
     borderRadius: 5,
     paddingHorizontal: 10,
     marginBottom: 10,
   },
-  saveButton: {
-    backgroundColor: "#007bff",
-    padding: 10,
-    borderRadius: 5,
-    alignSelf: "center",
-    marginBottom: 10,
-  },
-  saveButtonText: {
-    color: "#ffffff",
-    fontSize: 16,
-    fontWeight: "bold",
-  },
   noteItem: {
-    backgroundColor: "#f0f0f0",
+    backgroundColor: '#f0f0f0',
     padding: 10,
     borderRadius: 5,
     marginBottom: 10,
+  },
+  saveButton: {
+    backgroundColor: '#13274F',
+    borderRadius: 5,
+    padding: 10,
+    margin: 10
   },
   closeButton: {
-    backgroundColor: "#d9534f",
+    backgroundColor: '#960018',
     padding: 10,
+    margin: 10,
     borderRadius: 5,
-    alignSelf: "flex-end",
   },
-  closeButtonText: {
-    color: "#ffffff",
+  saveButtonText: {
+    color: '#ffffff',
     fontSize: 16,
+    fontWeight: 'bold',
+  },
+
+  closeButtonText: {
+    color: '#ffffff',
+    fontSize: 16,
+  },
+  buttons: {
+    flexDirection: 'row',
+    justifyContent: 'center',
   },
 });
 

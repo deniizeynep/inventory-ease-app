@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "inventory-ease-app",
-    "slug": "inventory-ease-app",
+    "name": "Inventory Ease",
+    "slug": "inventory-ease",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
   Alert,
   View,
@@ -7,30 +7,50 @@ import {
   FlatList,
   TextInput,
   Image,
-} from 'react-native';
-import { FontAwesome5 } from '@expo/vector-icons';
-import styles from './styles'; // Ensure correct import path
+} from "react-native";
+import { FontAwesome5 } from "@expo/vector-icons";
+import styles from "./styles"; // Ensure correct import path
 
-export default function Cart({ navigation, cartItems, updateCartItems }) {
+export default function Cart({
+  navigation,
+  cartItems,
+  updateCartItems,
+  route,
+}: {
+  navigation: any;
+  cartItems: any[];
+  updateCartItems: any;
+  route: any;
+}) {
   const [localCartItems, setLocalCartItems] = useState(cartItems);
+  const isClear = route.params?.clear;
+
+  useEffect(() => {
+    if (isClear) {
+      setLocalCartItems([]);
+      updateCartItems([]); // Update cart items in parent component
+      navigation.setParams({ clear: false });
+    }
+  }, [isClear]);
 
   useEffect(() => {
     setLocalCartItems(cartItems);
   }, [cartItems]);
 
   const handlePaymentPress = () => {
-    navigation.navigate('Payment', { totalAmount: getTotalPrice() });
+    navigation.navigate("Cart/Payment", { totalAmount: getTotalPrice() });
   };
 
   const getTotalPrice = () => {
     return localCartItems.reduce(
-      (total: number, item: { price: number; quantity: number; }) => total + item.price * item.quantity,
+      (total: number, item: { price: number; quantity: number }) =>
+        total + item.price * item.quantity,
       0
     );
   };
 
   const updateQuantity = (id: any, quantity: number) => {
-    const updatedCartItems = localCartItems.map((item: { id: any; }) => {
+    const updatedCartItems = localCartItems.map((item: { id: any }) => {
       if (item.id === id) {
         return { ...item, quantity: quantity };
       }
@@ -48,16 +68,18 @@ export default function Cart({ navigation, cartItems, updateCartItems }) {
         {
           text: "Cancel",
           onPress: () => console.log("Cancel Pressed"),
-          style: "cancel"
+          style: "cancel",
         },
         {
           text: "OK",
           onPress: () => {
-            const updatedCartItems = localCartItems.filter((item: { id: any; }) => item.id !== id);
+            const updatedCartItems = localCartItems.filter(
+              (item: { id: any }) => item.id !== id
+            );
             setLocalCartItems(updatedCartItems);
             updateCartItems(updatedCartItems); // Update cart items in parent component
-          }
-        }
+          },
+        },
       ],
       { cancelable: false }
     );
@@ -71,15 +93,15 @@ export default function Cart({ navigation, cartItems, updateCartItems }) {
         {
           text: "Cancel",
           onPress: () => console.log("Cancel Pressed"),
-          style: "cancel"
+          style: "cancel",
         },
         {
           text: "OK",
           onPress: () => {
             setLocalCartItems([]);
             updateCartItems([]); // Update cart items in parent component
-          }
-        }
+          },
+        },
       ],
       { cancelable: false }
     );
@@ -88,7 +110,7 @@ export default function Cart({ navigation, cartItems, updateCartItems }) {
   return (
     <View style={styles.container}>
       {localCartItems.length === 0 ? (
-        <Text style={styles.emptyText}>Sepetiniz boş.</Text>
+        <Text style={styles.emptyText}>The cart is empty</Text>
       ) : (
         <FlatList
           data={localCartItems}

@@ -9,41 +9,40 @@ const OutOfStock = [
     id: "1",
     name: "Coca Cola",
     quantity: 100,
-    image: require("../images/coca-cola.jpg"),
+    image: require("@/assets/images/products/coca-cola.jpg"),
   },
   {
     id: "2",
     name: "Fruit Juice",
     quantity: 80,
-    image: require("../images/fruit-juice.jpg"),
+    image: require("@/assets/images/products/fruit-juice.jpg"),
   },
   {
     id: "3",
     name: "Mineral Water",
     quantity: 50,
-    image: require("../images/mineral-water.jpg"),
+    image: require("@/assets/images/products/mineral-water.jpg"),
   },
 ];
 
 const LowStock = [
- 
   {
     id: "1",
     name: "Tea",
     quantity: 200,
-    image: require("../images/tea.jpg"),
+    image: require("@/assets/images/products/tea.jpg"),
   },
   {
     id: "2",
     name: "Ice Coffee",
     quantity: 180,
-    image: require("../images/ice-coffee.jpg"),
+    image: require("@/assets/images/products/ice-coffee.jpg"),
   },
   {
     id: "3",
     name: "Sprite",
     quantity: 205,
-    image: require("../images/sprite.jpg"),
+    image: require("@/assets/images/products/sprite.jpg"),
   },
 ];
 
@@ -52,39 +51,38 @@ const InStock = [
     id: "1",
     name: "Energy Drink",
     quantity: 500,
-    image: require("../images/energy-drink.jpg"),
+    image: require("@/assets/images/products/energy-drink.jpg"),
   },
   {
     id: "2",
     name: "Coffee",
     quantity: 480,
-    image: require("../images/coffee.png"),
+    image: require("@/assets/images/products/coffee.png"),
   },
   {
     id: "3",
     name: "Lemonade",
     quantity: 550,
-    image: require("../images/lemonade.jpg"),
+    image: require("@/assets/images/products/lemonade.jpg"),
   },
   {
     id: "4",
     name: "Pepsi",
     quantity: 600,
-    image: require("../images/pepsi.jpg"),
+    image: require("@/assets/images/products/pepsi.jpg"),
   },
   {
     id: "5",
     name: "Milk",
     quantity: 400,
-    image: require("../images/milk.jpg"),
+    image: require("@/assets/images/products/milk.jpg"),
   },
-{
+  {
     id: "6",
     name: "Ice Tea",
     quantity: 650,
-    image: require("../images/ice-tea.jpg"),
+    image: require("@/assets/images/products/ice-tea.jpg"),
   },
-  
 ];
 
 export default function Inventory() {
@@ -97,7 +95,7 @@ export default function Inventory() {
       <View>
         <TouchableOpacity
           style={styles.inventoryContainer}
-          onPress={() => setShowOutOfStock(!showOutOfStock)}
+          onPress={() => setShowOutOfStock((prev) => !prev)}
         >
           <Text style={styles.title}>
             <FontAwesome5 name="exclamation" size={24} color="red" /> Out Of
@@ -117,7 +115,7 @@ export default function Inventory() {
       <View>
         <TouchableOpacity
           style={styles.inventoryContainer}
-          onPress={() => setShowLowStock(!showLowStock)}
+          onPress={() => setShowLowStock((prev) => !prev)}
         >
           <Text style={styles.title}>
             <FontAwesome6
@@ -141,7 +139,7 @@ export default function Inventory() {
       <View>
         <TouchableOpacity
           style={styles.inventoryContainer}
-          onPress={() => setShowInStock(!showInStock)}
+          onPress={() => setShowInStock((prev) => !prev)}
         >
           <Text style={styles.title}>
             <Entypo name="check" size={24} color="#ccc" /> In Stock{"   "}

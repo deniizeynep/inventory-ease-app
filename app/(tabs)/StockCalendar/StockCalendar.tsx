@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -9,16 +9,16 @@ import {
   TextInput,
   FlatList,
   ScrollView,
-} from 'react-native';
-import { Calendar, DateObject } from 'react-native-calendars';
+} from "react-native";
+import { Calendar } from "react-native-calendars";
 
 const StockCalendar: React.FC = () => {
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [modalVisible, setModalVisible] = useState(false);
-  const [notes, setNotes] = useState<{ [date: string]: string[] }>({});
-  const [inputText, setInputText] = useState('');
+  const [notes, setNotes] = useState<{ [key: string]: string[] }>({});
+  const [inputText, setInputText] = useState("");
 
-  const handleDayPress = (day: DateObject) => {
+  const handleDayPress = (day: { dateString: any }) => {
     const selectedDateString = day.dateString;
     setSelectedDate(selectedDateString);
     setModalVisible(true);
@@ -29,12 +29,16 @@ const StockCalendar: React.FC = () => {
   };
 
   const updateNotes = () => {
-    if (selectedDate && inputText.trim() !== '') {
-      setNotes((prevNotes) => ({
-        ...prevNotes,
-        [selectedDate]: [...(prevNotes[selectedDate] || []), inputText.trim()],
-      }));
-      setInputText('');
+    if (selectedDate && inputText.trim() !== "") {
+      setNotes((prevNotes) => {
+        const clonedNotes = Object.assign({}, prevNotes);
+        if (!clonedNotes[selectedDate]) {
+          clonedNotes[selectedDate] = [];
+        }
+        clonedNotes[selectedDate].push(inputText);
+        return clonedNotes;
+      });
+      setInputText("");
     }
   };
 
@@ -43,18 +47,27 @@ const StockCalendar: React.FC = () => {
       return null;
     }
 
+    const dates = Object.keys(notes);
+
     return (
-      <View style={styles.notesContainer}>
+      <ScrollView style={styles.notesContainer}>
         <FlatList
-          data={notes[selectedDate]}
-          renderItem={({ item }) => (
-            <View style={styles.noteItem}>
-              <Text>{item}</Text>
-            </View>
+          data={dates}
+          renderItem={({ item: date }) => (
+            <FlatList
+              data={notes[date]}
+              renderItem={({ item }) => (
+                <View style={styles.noteItem}>
+                  <Text style={styles.noteItemDate}>{date}</Text>
+                  <Text>{item}</Text>
+                </View>
+              )}
+              keyExtractor={(item, index) => index.toString()}
+            />
           )}
-          keyExtractor={(item, index) => index.toString()}
+          keyExtractor={(date) => date}
         />
-      </View>
+      </ScrollView>
     );
   };
 
@@ -66,16 +79,33 @@ const StockCalendar: React.FC = () => {
         animationType="slide"
         transparent={true}
         visible={modalVisible}
-        onRequestClose={closeModal}>
+        onRequestClose={closeModal}
+      >
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
             <Text style={styles.modalTitle}>Selected Date: {selectedDate}</Text>
             <ScrollView style={styles.notesContainer}>
-              {(notes[selectedDate] || []).map((note: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined, index: React.Key | null | undefined) => (
-                <View key={index} style={styles.noteItem}>
-                  <Text>{note}</Text>
-                </View>
-              ))}
+              {(notes[selectedDate || ""] || []).map(
+                (
+                  note:
+                    | string
+                    | number
+                    | boolean
+                    | React.ReactElement<
+                        any,
+                        string | React.JSXElementConstructor<any>
+                      >
+                    | Iterable<React.ReactNode>
+                    | React.ReactPortal
+                    | null
+                    | undefined,
+                  index: React.Key | null | undefined
+                ) => (
+                  <View key={index} style={styles.noteItem}>
+                    <Text>{note}</Text>
+                  </View>
+                )
+              )}
             </ScrollView>
             <TextInput
               style={styles.input}
@@ -89,7 +119,8 @@ const StockCalendar: React.FC = () => {
                   updateNotes();
                   setModalVisible(false);
                 }}
-                style={styles.saveButton}>
+                style={styles.saveButton}
+              >
                 <Text style={styles.saveButtonText}>Save</Text>
               </TouchableOpacity>
               <TouchableOpacity onPress={closeModal} style={styles.closeButton}>
@@ -107,69 +138,77 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
-    backgroundColor: 'white',
+    backgroundColor: "white",
+    height: "100%",
   },
   modalContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   modalContent: {
-    backgroundColor: '#ffffff',
+    backgroundColor: "#ffffff",
     padding: 20,
     borderRadius: 10,
     elevation: 5,
-    width: '80%',
-    maxHeight: '80%',
+    width: "80%",
+    maxHeight: "80%",
   },
   modalTitle: {
     fontSize: 18,
     marginBottom: 10,
   },
   notesContainer: {
-    maxHeight: 200,
     marginBottom: 10,
   },
   input: {
     height: 40,
-    borderColor: '#13274F',
+    borderColor: "#13274F",
     borderWidth: 1,
     borderRadius: 5,
     paddingHorizontal: 10,
     marginBottom: 10,
   },
   noteItem: {
-    backgroundColor: '#f0f0f0',
+    backgroundColor: "#f0f0f0",
     padding: 10,
     borderRadius: 5,
     marginBottom: 10,
+    display: "flex",
   },
   saveButton: {
-    backgroundColor: '#13274F',
+    backgroundColor: "#13274F",
     borderRadius: 5,
     padding: 10,
-    margin: 10
+    margin: 10,
   },
   closeButton: {
-    backgroundColor: '#960018',
+    backgroundColor: "#960018",
     padding: 10,
     margin: 10,
     borderRadius: 5,
   },
   saveButtonText: {
-    color: '#ffffff',
+    color: "#ffffff",
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
 
   closeButtonText: {
-    color: '#ffffff',
+    color: "#ffffff",
     fontSize: 16,
   },
   buttons: {
-    flexDirection: 'row',
-    justifyContent: 'center',
+    flexDirection: "row",
+    justifyContent: "center",
+  },
+  noteItemDate: {
+    marginBottom: 5,
+    fontWeight: "bold",
+    marginEnd: 5,
+    borderBottomColor: "#b8b8b5",
+    borderBottomWidth: 1,
   },
 });
 

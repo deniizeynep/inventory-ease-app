@@ -8,7 +8,7 @@ import {
   StyleSheet,
 } from "react-native";
 
-function PaymentScreen({ route, navigation }) {
+function PaymentScreen({ route, navigation }: { route: any; navigation: any }) {
   const [cardName, setCardName] = useState("");
   const [cardNumber, setCardNumber] = useState("");
   const [expiryDate, setExpiryDate] = useState("");
@@ -18,26 +18,30 @@ function PaymentScreen({ route, navigation }) {
   const { totalAmount } = route.params;
 
   const handlePayment = () => {
+    setPaymentSuccess(true);
     setTimeout(() => {
-      setPaymentSuccess(true);
-      setTimeout(() => {
-        navigation.navigate("Cart");
-      }, 1000);
+      navigation.navigate("Cart/Cart", { clear: true });
     }, 1000);
   };
 
   const formatCardNumber = (number: string) => {
-    return number
-      .replace(/\s?/g, "")
-      .replace(/(\d{4})/g, "$1 ")
-      .trim();
+    const prevCardNumberLength = cardNumber.length;
+    const newCardNumberLength = number.length;
+    if (prevCardNumberLength < newCardNumberLength && (number + " ").toString().length % 5 === 0) {
+      number = number + " ";
+    }
+
+    return number;
   };
 
   const handleCardNumberChange = (text: any) => {
-    setCardNumber(formatCardNumber(text));
+    // Accept only 16 numbers and 4 spaces
+    if (/^\d{0,4} ?\d{0,4} ?\d{0,4} ?\d{0,4}$/.test(text)) {
+      setCardNumber(formatCardNumber(text));
+    }
   };
 
-  const handleExpiryDateChange = (text) => {
+  const handleExpiryDateChange = (text: string) => {
     if (/^\d{0,2}\/?\d{0,2}$/.test(text)) {
       if (text.length === 2 && !text.includes("/")) {
         setExpiryDate(text + "/");
@@ -47,7 +51,7 @@ function PaymentScreen({ route, navigation }) {
     }
   };
 
-  const handleCvcChange = (text) => {
+  const handleCvcChange = (text: string) => {
     if (/^\d{0,3}$/.test(text)) {
       setCvc(text);
     }

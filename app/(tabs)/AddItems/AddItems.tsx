@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   View,
   TextInput,
@@ -7,101 +7,107 @@ import {
   Image,
   TouchableOpacity,
   Button,
-} from 'react-native';
-import { FontAwesome } from '@expo/vector-icons';
-import styles from './styles'; 
+  Alert,
+} from "react-native";
+import { FontAwesome } from "@expo/vector-icons";
+import styles from "./styles";
 
 const products = [
   {
-    id: '1',
-    name: 'Coca Cola',
+    id: "1",
+    name: "Coca Cola",
     price: 10,
-    image: require('../images/coca-cola.jpg'),
+    image: require("@/assets/images/products/coca-cola.jpg"),
   },
   {
-    id: '2',
-    name: 'Ice Tea',
+    id: "2",
+    name: "Ice Tea",
     price: 20,
-    image: require('../images/ice-tea.jpg'),
+    image: require("@/assets/images/products/ice-tea.jpg"),
   },
   {
-    id: '3',
-    name: 'Water',
+    id: "3",
+    name: "Water",
     price: 30,
-    image: require('../images/water.jpg'),
+    image: require("@/assets/images/products/water.jpg"),
   },
   {
-    id: '4',
-    name: 'Tea',
+    id: "4",
+    name: "Tea",
     price: 30,
-    image: require('../images/tea.jpg'),
+    image: require("@/assets/images/products/tea.jpg"),
   },
   {
-    id: '5',
-    name: 'Fruit Juice',
+    id: "5",
+    name: "Fruit Juice",
     price: 30,
-    image: require('../images/fruit-juice.jpg'),
+    image: require("@/assets/images/products/fruit-juice.jpg"),
   },
   {
-    id: '6',
-    name: 'Capri Sun',
+    id: "6",
+    name: "Capri Sun",
     price: 30,
-    image: require('../images/capri-sun.jpg'),
-  },
-  { id: '7', name: 'Fanta', price: 30, image: require('../images/fanta.jpg') },
-  {
-    id: '8',
-    name: 'Sprite',
-    price: 30,
-    image: require('../images/sprite.jpg'),
+    image: require("@/assets/images/products/capri-sun.jpg"),
   },
   {
-    id: '9',
-    name: 'Mineral Water',
+    id: "7",
+    name: "Fanta",
     price: 30,
-    image: require('../images/mineral-water.jpg'),
+    image: require("@/assets/images/products/fanta.jpg"),
   },
   {
-    id: '10',
-    name: 'Lemonade',
+    id: "8",
+    name: "Sprite",
     price: 30,
-    image: require('../images/lemonade.jpg'),
+    image: require("@/assets/images/products/sprite.jpg"),
   },
   {
-    id: '11',
-    name: 'Pepsi',
+    id: "9",
+    name: "Mineral Water",
     price: 30,
-    image: require('../images/pepsi.jpg'),
+    image: require("@/assets/images/products/mineral-water.jpg"),
   },
   {
-    id: '12',
-    name: 'Ice Coffee',
+    id: "10",
+    name: "Lemonade",
     price: 30,
-    image: require('../images/ice-coffee.jpg'),
+    image: require("@/assets/images/products/lemonade.jpg"),
   },
   {
-    id: '13',
-    name: 'Coffee',
+    id: "11",
+    name: "Pepsi",
     price: 30,
-    image: require('../images/coffee.png'),
+    image: require("@/assets/images/products/pepsi.jpg"),
   },
   {
-    id: '14',
-    name: 'Milk',
+    id: "12",
+    name: "Ice Coffee",
     price: 30,
-    image: require('../images/milk.jpg'),
+    image: require("@/assets/images/products/ice-coffee.jpg"),
   },
   {
-    id: '15',
-    name: 'Energy Drink',
+    id: "13",
+    name: "Coffee",
     price: 30,
-    image: require('../images/energy-drink.jpg'),
+    image: require("@/assets/images/products/coffee.png"),
+  },
+  {
+    id: "14",
+    name: "Milk",
+    price: 30,
+    image: require("@/assets/images/products/milk.jpg"),
+  },
+  {
+    id: "15",
+    name: "Energy Drink",
+    price: 30,
+    image: require("@/assets/images/products/energy-drink.jpg"),
   },
 ];
 
-export default function AddItems({ addItemToCart }) {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [quantities, setQuantities] = useState({});
+export default function AddItems({ addItemToCart }: any) {
+  const [searchQuery, setSearchQuery] = useState("");
+  const [quantities, setQuantities] = useState<{ [key: string]: any }>({});
 
   const handleSearch = (text: React.SetStateAction<string>) => {
     setSearchQuery(text);
@@ -121,11 +127,18 @@ export default function AddItems({ addItemToCart }) {
     }));
   };
 
-  const handleAddToCart = (item: { id: any; name?: string; price?: number; image?: any; }) => {
+  const handleAddToCart = (item: {
+    id: any;
+    name?: string;
+    price?: number;
+    image?: any;
+  }) => {
     const quantity = quantities[item.id] || 1;
     const newCartItem = { ...item, quantity };
     addItemToCart(newCartItem);
     setQuantities((prevQuantities) => ({ ...prevQuantities, [item.id]: 1 })); // Reset quantity to 1 after adding to cart
+
+    Alert.alert('Success', 'Item added to cart successfully!');
   };
 
   const filteredProducts = products.filter((product) =>
@@ -133,7 +146,7 @@ export default function AddItems({ addItemToCart }) {
   );
 
   return (
-    <View style={{ backgroundColor: '#fff' }}>
+    <View style={{ backgroundColor: "#fff" }}>
       <View style={styles.inputContainer}>
         <FontAwesome
           name="shopping-basket"
@@ -160,7 +173,8 @@ export default function AddItems({ addItemToCart }) {
               <View style={styles.productActions}>
                 <TouchableOpacity
                   style={styles.actionButton}
-                  onPress={() => handleDecrease(item.id)}>
+                  onPress={() => handleDecrease(item.id)}
+                >
                   <Text style={styles.actionButtonText}>-</Text>
                 </TouchableOpacity>
                 <Text style={styles.quantityText}>
@@ -168,12 +182,14 @@ export default function AddItems({ addItemToCart }) {
                 </Text>
                 <TouchableOpacity
                   style={styles.actionButton}
-                  onPress={() => handleIncrease(item.id)}>
+                  onPress={() => handleIncrease(item.id)}
+                >
                   <Text style={styles.actionButtonText}>+</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={styles.cartButton}
-                  onPress={() => handleAddToCart(item)}>
+                  onPress={() => handleAddToCart(item)}
+                >
                   <FontAwesome name="shopping-cart" size={20} color="white" />
                 </TouchableOpacity>
               </View>
